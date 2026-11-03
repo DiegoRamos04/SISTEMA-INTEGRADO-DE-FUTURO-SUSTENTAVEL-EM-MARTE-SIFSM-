@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./SISTEMA-INTEGRADO-DE-FUTURO-SUSTENTAVEL-EM-MARTE-SIFSM--main"
+    ]
+}
