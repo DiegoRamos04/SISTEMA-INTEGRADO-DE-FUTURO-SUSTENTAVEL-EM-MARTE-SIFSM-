@@ -2,7 +2,7 @@ import oracledb
 import pandas as pd
 
 # Configurações de conexão 
-USER = 'RM570889'
+USER = 'rm570889'
 PASSWORD = '040907'
 DSN = 'oracle.fiap.com.br:1521/ORCL'
 
