@@ -85,3 +85,6 @@ def executar_modelo():
     vif['Variável'] = X.columns
     vif['VIF'] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
     print(vif)
+
+if __name__ == "__main__":
+    executar_modelo()
