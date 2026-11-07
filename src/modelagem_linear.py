@@ -41,13 +41,6 @@ def executar_modelo():
     print("\n--- Estatísticas Descritivas ---")
     print(df.describe())
 
-    # Gráfico de dispersão (Exemplo: Tripulantes vs Consumo)
-    plt.scatter(df['Tripulantes'], df['Consumo_Energetico'], color='blue', alpha=0.6)
-    plt.title('Tripulantes vs Consumo Energético na Aurora Siger')
-    plt.xlabel('Número de Tripulantes')
-    plt.ylabel('Consumo Energético (kWh)')
-    plt.show()
-
     print("\n--- Matriz de Correlação ---")
     print(df.corr())
 
@@ -55,7 +48,6 @@ def executar_modelo():
     # 3. Construção do modelo de Regressão Múltipla 
     X = df[['Temperatura_Externa', 'Tripulantes', 'Tamanho_Modulo']]
     y = df['Consumo_Energetico']
-
     model = LinearRegression()
     model.fit(X, y)
 
@@ -71,7 +63,6 @@ def executar_modelo():
     mse = mean_squared_error(y, y_pred)
     mae = mean_absolute_error(y, y_pred)
     r2 = r2_score(y, y_pred)
-
     print("\n--- Métricas de Avaliação ---")
     print(f"MSE: {mse:.4f}")
     print(f"MAE: {mae:.4f}")
@@ -86,5 +77,13 @@ def executar_modelo():
     vif['VIF'] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
     print(vif)
 
+    # Gráfico de dispersão (Exemplo: Tripulantes vs Consumo)
+    plt.scatter(df['Tripulantes'], df['Consumo_Energetico'], color='blue', alpha=0.6)
+    plt.title('Tripulantes vs Consumo Energético na Aurora Siger')
+    plt.xlabel('Número de Tripulantes')
+    plt.ylabel('Consumo Energético (kWh)')
+    plt.show()
+
 if __name__ == "__main__":
     executar_modelo()
+    
