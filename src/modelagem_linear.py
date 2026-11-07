@@ -78,12 +78,13 @@ def executar_modelo():
     print(vif)
 
     # Gráfico de dispersão (Exemplo: Tripulantes vs Consumo)
+    print("\nGerando gráfico de dispersão...")
     plt.scatter(df['Tripulantes'], df['Consumo_Energetico'], color='blue', alpha=0.6)
     plt.title('Tripulantes vs Consumo Energético na Aurora Siger')
     plt.xlabel('Número de Tripulantes')
     plt.ylabel('Consumo Energético (kWh)')
+    plt.savefig("docs/graficos_ou_imagens/grafico_dispersao.png")
     plt.show()
 
 if __name__ == "__main__":
     executar_modelo()
-    

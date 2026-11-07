@@ -77,7 +77,9 @@ def executar_simulacao():
     plt.grid(True)
 
     plt.tight_layout()
+    print("\nGerando gráficos da simulação de bateria...")
+    plt.savefig("docs/graficos_ou_imagens/simulacao_bateria.png")
     plt.show()
-    
+
 if __name__ == "__main__":
     executar_simulacao()
