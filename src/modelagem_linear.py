@@ -34,34 +34,6 @@ def executar_modelo():
     })
     df.to_csv('dados_aurora_siger.csv', index=False)
 
-    # 1. Geração de dados simulados
-
-    np.random.seed(42)
-    n_amostras = 200
-
-    # Variáveis explicativas (X)
-    temperatura_externa = np.random.uniform(-80, -20, n_amostras) # Temperatura em Marte (°C)
-    tripulantes = np.random.randint(2, 10, n_amostras)            # Quantidade de pessoas no módulo
-    tamanho_modulo = np.random.uniform(50, 150, n_amostras)       # Área do módulo em m²
-
-    # Variável resposta (y) com ruído aleatório para simular a realidade
-    # Lógica: Menor temperatura (mais negativa) exige mais aquecimento, mais tripulantes e maior área gastam mais energia
-    consumo_energia = (50 
-                       - 0.6 * temperatura_externa 
-                       + 4.5 * tripulantes 
-                       + 0.3 * tamanho_modulo 
-                       + np.random.normal(0, 4, n_amostras)) # Ruído
-
-    # Criação do DataFrame e salvamento (simulando a leitura de um arquivo do projeto)
-    df = pd.DataFrame({
-        'Temperatura_Externa': temperatura_externa,
-        'Tripulantes': tripulantes,
-        'Tamanho_Modulo': tamanho_modulo,
-        'Consumo_Energetico': consumo_energia
-    })
-    df.to_csv('dados_aurora_siger.csv', index=False)
-
-
     # 2. Análise exploratória dos dados 
 
     print("--- Estrutura dos Dados ---")

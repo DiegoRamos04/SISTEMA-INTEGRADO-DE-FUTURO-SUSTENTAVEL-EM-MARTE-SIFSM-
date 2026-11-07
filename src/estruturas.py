@@ -57,6 +57,14 @@ class EstruturasSIFSM:
         print(f"Desfazendo ação mais recente: {acao_desfeita}")
         return acao_desfeita
 
+    def exibir_hash(self):
+        """Exibe o estado atual da Tabela Hash."""
+        print(self.modulos_cadastrados)
+
+    def exibir_fila(self):
+        """Exibe o estado atual da Fila."""
+        print(self.fila_manutencao)
+
 if __name__ == "__main__":
     print("--- SIFSM: Inicializando Estruturas de Dados ---")
     sistema = EstruturasSIFSM()

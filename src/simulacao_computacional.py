@@ -22,24 +22,6 @@ def executar_simulacao():
         # Pico que simula alta atividade na colônia usando uma função trigonométrica
         pico_operacional = 80.0 * np.sin(np.pi * t / 24)**2 
         return consumo_base + pico_operacional
-    # Tópico 1.4: Simulação Computacional e Integração Matemática
-    # Fenômeno: Descarga da Bateria Principal da Colônia (Aurora Siger)
-
-    # 1. Parâmetros do Sistema
-    CAPACIDADE_BATERIA = 5000.0  # Capacidade total em Ampere-hora (Ah)
-    TEMPO_SIMULACAO = 24.0       # Ciclo de 24 horas (h)
-    SOC_INICIAL = 1.0            # Bateria inicia com 100% de carga (1.0)
-
-    # 2. Modelagem do Consumo (Descarga)
-    def corrente_descarga(t):
-        """
-        Representa a corrente de descarga (Amperes) ao longo do tempo.
-        Combina um consumo base da colônia com um pico operacional diurno.
-        """
-        consumo_base = 120.0
-        # Pico que simula alta atividade na colônia usando uma função trigonométrica
-        pico_operacional = 80.0 * np.sin(np.pi * t / 24)**2 
-        return consumo_base + pico_operacional
 
     # 3. Execução da Simulação com Tratamento de Erros
     tempos = np.linspace(0, TEMPO_SIMULACAO, 300)

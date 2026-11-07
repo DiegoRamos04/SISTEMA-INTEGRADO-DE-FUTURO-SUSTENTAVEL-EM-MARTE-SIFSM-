@@ -6,34 +6,30 @@ import src.agentes_ia as agentes_ia
 def sincronizar_banco_estruturas():
     print("\n--- Sincronizando Oracle DB com Memória Interna (Hash/Fila) ---")
     
-    # 1. Instancia as estruturas (substitua 'Sistema' pelo nome exato da sua classe no estruturas.py)
-    sistema_memoria = estruturas.Sistema() 
+    # 1. CORREÇÃO: O nome da classe no estruturas.py é EstruturasSIFSM
+    sistema_memoria = estruturas.EstruturasSIFSM() 
     
     try:
-        # 2. Abre conexão e busca os dados reais
-        conexao = db.conectar() # Use a sua função de conexão real do banco_de_dados.py
+        conexao = db.conectar()
         cursor = conexao.cursor()
         
-        # Ajuste 'modulos' e os nomes das colunas para os que você usa na sua tabela Oracle
-        cursor.execute("SELECT id_modulo, nome FROM modulos") 
+        # 2. CORREÇÃO: Nome da tabela (modulos_aurora) e coluna (nome_modulo)
+        cursor.execute("SELECT id_modulo, nome_modulo FROM modulos_aurora") 
         registros = cursor.fetchall()
         
-        # 3. Carrega os dados nas Estruturas de Dados
         for linha in registros:
             id_mod = linha[0]
             nome_mod = linha[1]
             
-            # Alimenta a Tabela Hash
             sistema_memoria.cadastrar_modulo_hash(id_mod, nome_mod)
             
-            # Simula a entrada do módulo na Fila de Processamento/Manutenção
-            sistema_memoria.adicionar_fila(f"Inspeção de rotina: {nome_mod}")
+            # 3. CORREÇÃO: O método correto no estruturas.py é enfileirar_chamado
+            sistema_memoria.enfileirar_chamado(f"Inspeção de rotina: {nome_mod}")
             
         print(f"Sucesso: {len(registros)} módulos carregados do Oracle para a Tabela Hash e Fila!")
         
-        # 4. Demonstra os dados carregados na memória
         print("\n[Estado atual da Tabela Hash]")
-        sistema_memoria.exibir_hash()
+        sistema_memoria.exibir_hash() 
         
         print("\n[Estado atual da Fila de Operações]")
         sistema_memoria.exibir_fila()
@@ -106,28 +102,28 @@ def menu_principal():
             limpar_tela()
             print("Iniciando avaliação da regra lógica do sistema...\n")
             # Executa o script de regras
-            subprocess.run(["python", "regras.py"])
+            subprocess.run(["python", "src/regras.py"])
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '6':
             limpar_tela()
             print("Demonstrando operação das Estruturas de Dados...\n")
             # Executa o script de estruturas
-            subprocess.run(["python", "estruturas.py"])
+            subprocess.run(["python", "src/estruturas.py"])
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '7':
             limpar_tela()
             print("Calculando Simulação de Bateria e gerando gráficos (Aguarde)...\n")
             # Dica: Feche a janela do gráfico do matplotlib para o terminal continuar
-            subprocess.run(["python", "simulação computacional.py"])
+            subprocess.run(["python", "src/simulacao_computacional.py"])
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '8':
             limpar_tela()
             print("Treinando Modelo de Regressão Linear Múltipla e gerando gráfico...\n")
             # Dica: Feche a janela do gráfico do matplotlib para o terminal continuar
-            subprocess.run(["python", "modelagem_linear.py"])
+            subprocess.run(["python", "src/modelagem_linear.py"])
             input("\nPressione ENTER para continuar...")
 
         elif escolha == '9':
@@ -144,7 +140,7 @@ def menu_principal():
             break
             
         else:
-            print("\nOpção inválida! Tente novamente digitando um número de 0 a 8.")
+            print("\nOpção inválida! Tente novamente digitando um número de 0 a 9.")
             input("Pressione ENTER para continuar...")
 
 if __name__ == "__main__":

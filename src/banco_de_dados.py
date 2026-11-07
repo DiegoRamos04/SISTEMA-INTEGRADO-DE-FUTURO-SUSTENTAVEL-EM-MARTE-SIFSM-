@@ -37,7 +37,9 @@ def cadastrar_modulo(nome, consumo, status):
         conn.commit()
         print(f"\n[SUCESSO] Módulo '{nome}' gravado na Aurora Siger!")
     finally:
-        # O finally executa independentemente de erro, garantindo o fechamento do cursor
+        # O finally executa independentemente de erro
+        if 'inst_cadastro' in locals():
+            inst_cadastro.close()
         conn.close()
 
 def listar_modulos():
