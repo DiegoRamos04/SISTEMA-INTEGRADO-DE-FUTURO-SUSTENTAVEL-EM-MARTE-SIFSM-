@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-
+from sklearn.model_selection import train_test_split
 def executar_modelo():
     print("--- Iniciando Previsão Energética (Modelagem Linear) ---")
     # 1. Geração de dados simulados
@@ -45,28 +45,33 @@ def executar_modelo():
     print(df.corr())
 
 
-    # 3. Construção do modelo de Regressão Múltipla 
+    # 3. Construção do modelo de Regressão Múltipla com Separação de Treino e Teste
     X = df[['Temperatura_Externa', 'Tripulantes', 'Tamanho_Modulo']]
     y = df['Consumo_Energetico']
+
+    # Separando 80% para treino e 20% para teste (dados separados!)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
     model = LinearRegression()
-    model.fit(X, y)
+    model.fit(X_train, y_train)  # O modelo APRENDE apenas com o treino
 
     print("\n--- Equação do Modelo ---")
     print(f"Intercepto: {model.intercept_:.4f}")
     print(f"Coeficientes: {model.coef_}")
 
 
-    # 4. Avaliação do modelo 
+    # 4. Avaliação do modelo em DADOS SEPARADOS (Conjunto de Teste)
+    y_pred = model.predict(X_test)  # O modelo PREVÊ dados que ele NUNCA viu
 
-    y_pred = model.predict(X)
-
-    mse = mean_squared_error(y, y_pred)
-    mae = mean_absolute_error(y, y_pred)
-    r2 = r2_score(y, y_pred)
-    print("\n--- Métricas de Avaliação ---")
+    mse = mean_squared_error(y_test, y_pred)
+    mae = mean_absolute_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    
+    print("\n--- Métricas de Avaliação (Dados de Teste) ---")
     print(f"MSE: {mse:.4f}")
     print(f"MAE: {mae:.4f}")
     print(f"R²: {r2:.4f}")
+
     print("\n--- Interpretação dos Coeficientes e Unidades ---")
     print("1. Temperatura (°C): Coeficiente negativo.")
     print("   -> Quanto mais frio, maior o gasto com aquecimento.")
@@ -75,7 +80,7 @@ def executar_modelo():
     print("3. Tamanho (m²): Coeficiente positivo.")
     print("   -> Módulos maiores exigem mais energia.")
     print(f"4. Avaliação (R² = {r2:.2f}):")
-    print("   -> O modelo explica a variação do consumo (kWh didático).")
+    print("   -> O modelo explica a variação do consumo em dados não vistos (kWh didático).")
 
     # 5. Verificação de multicolinearidade (VIF)
 
