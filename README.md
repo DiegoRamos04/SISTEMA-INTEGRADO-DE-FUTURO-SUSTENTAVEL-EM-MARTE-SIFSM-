@@ -1,72 +1,76 @@
 # Sistema Integrado de Futuro Sustentável em Marte (SIFSM)
 
-Repositório oficial do projeto desenvolvido para a Fase 7, focado no gerenciamento e na simulação computacional de infraestrutura autossustentável para colônias marcianas (Módulo Aurora Siger).
+Protótipo acadêmico para organizar informações operacionais da colônia Aurora Siger e demonstrar decisões sustentáveis por meio de regras, estruturas de dados, simulação numérica, regressão linear e agentes de IA simulados. O projeto combina componentes executáveis com abstrações didáticas; não representa um sistema certificado para operação real em Marte.
 
-## 🚀 Tecnologias Utilizadas
-* Python (Simulações e Integração com Banco de Dados)
-* Oracle Database (Persistência e Estruturação SQL)
-* Git & GitHub (Controle de Versão)
-## Alerta energético integrado ao Circuit Design
+## Arquivos da entrega
 
-Execute `python codigo_fonte.py` e selecione **10**. A opção funciona sem Oracle
-ou bibliotecas externas e permite leitura manual, análise do CSV existente e
-exportação da tabela verdade para `data/circuito/`.
+| Arquivo/pasta | Conteúdo |
+| --- | --- |
+| `codigo_fonte.py` | Aplicação principal e menu textual do SIFSM. |
+| `src/` | Módulos de banco de dados, lógica, estruturas, simulação, regressão, agentes e alerta energético. |
+| `data/script_banco.sql` | Criação da tabela Oracle `modulos_aurora`. |
+| `dados_aurora_siger.csv` | Base sintética usada pelo alerta energético e gerada pelo modelo linear. |
+| `circuito_logico.png` | Esquema do circuito com nome padronizado para a entrega. |
+| `src/simulacao_computacional.py` | Simulação de descarga e estado de carga da bateria. |
+| `simulador/alerta_energetico/alerta_energetico.ino` | Sketch para Arduino Uno/Tinkercad, relacionado à regra de alerta. |
+| `docs/circuito/` | Esquema, lista de componentes, tabela-verdade, roteiro e registros de validação do circuito. |
+| `docs/graficos_ou_imagens/` | Gráficos ilustrativos da simulação e do modelo. |
+| `relatorio_tecnico.md` | Relatório técnico completo do protótipo, dados, decisões, limitações e melhorias. |
+| `link_video.txt` | Local para registrar o link não listado da apresentação. Substituir o texto de pendência pelo link final antes de compactar a entrega. |
+| `tests/test_alerta.py` | Testes automatizados da regra energética e da exportação CSV. |
 
-A regra é `Alerta = (A e B) ou C`: A indica consumo maior ou igual ao limite;
-B indica módulo crítico; C indica falha. Informe leitura e limite na mesma
-unidade. O CSV original não informa B/C: os estados fornecidos pelo operador
-são aplicados a todas as linhas. Os limites são didáticos e configuráveis.
+## Requisitos
 
-### Arduino / Tinkercad
+- Python 3.10 ou superior.
+- Pacotes: `numpy`, `pandas`, `matplotlib`, `scipy`, `scikit-learn`, `statsmodels` e `oracledb`.
+- Oracle Database acessível somente para as opções de CRUD. As demais demonstrações são locais, mas os módulos de análise requerem os pacotes indicados.
 
-Abra o circuito existente e copie o conteúdo de
-`simulador/alerta_energetico/alerta_energetico.ino` para o editor de código Texto.
-Botões A/B/C: D2/D3/D4 ligados a GND com INPUT_PULLUP. LED: D8 com resistor de
-220 ohms em série para GND. Piezo: positivo D9, negativo GND.
+Instale os pacotes em um ambiente virtual:
 
-Inicie a simulação. No Monitor Serial (9600 baud), envie `SET 110` seguido de
-Enter para reproduzir A=1, B=1, C=0. Use a coluna `comando_serial` do CSV para
-reproduzir cada leitura. `BTN` devolve o controle aos botões. O LED e o piezo
-seguem o alerta. A transferência Python → Tinkercad é manual por comandos;
-não há conexão automática em tempo real.
+```bash
+python -m venv .venv
+# Windows PowerShell:
+.venv\Scripts\Activate.ps1
+# macOS/Linux:
+source .venv/bin/activate
+python -m pip install numpy pandas matplotlib scipy scikit-learn statsmodels oracledb
+```
 
-Tabela esperada, em ordem 000 a 111: **0, 1, 0, 1, 0, 1, 1, 1**.
+## Configuração do banco
 
-Validação Python: `python -m unittest discover -s tests -v`.
-O novo sketch ainda precisa ser compilado e validado no simulador.
+1. Crie a tabela executando `data/script_banco.sql` no Oracle.
+2. Configure as credenciais e o DSN do Oracle no módulo `src/banco_de_dados.py` antes de usar o CRUD.
+3. As opções 1 a 4 do menu dependem do Oracle e de uma rede com acesso ao servidor. Se o banco não estiver disponível, utilize as opções locais e apresente o CRUD como dependente do serviço externo.
 
+**Antes de compartilhar a entrega, substitua qualquer credencial que tenha sido incluída diretamente no código e revogue/rotacione a senha exposta.** Não publique senhas em ZIP, Git ou capturas de tela.
 
-## Arquivos do circuito e validação
+## Como executar
 
-![Esquema eletrônico exportado do Tinkercad](docs/circuito/esquema-circuito.png)
+Na raiz do projeto:
 
-- [Esquema original em PDF](docs/circuito/Projeto-FIAP.pdf)
-- [Lista de componentes exportada](docs/circuito/lista-componentes.csv)
-- [Guia da montagem e roteiro de testes](docs/circuito/README.md)
-- [Tabela verdade e comandos para o simulador](docs/circuito/tabela-verdade.csv)
-- [Resultado dos testes Python](docs/circuito/resultado-testes-python.txt)
+```bash
+python codigo_fonte.py
+```
 
-O PDF e a lista de componentes são exportações fornecidas pelo autor.
-A imagem acima foi renderizada a partir desse PDF. O código Arduino está em
-[simulador/alerta_energetico](simulador/alerta_energetico/alerta_energetico.ino).
+O menu apresenta as opções de CRUD (1–4, Oracle), regra de irrigação (5), estruturas de dados (6), simulação da bateria (7), modelo linear (8), assistente multiagente simulado (9) e alerta energético/circuito (10). Digite `0` para sair.
 
-## 1.7 Arquitetura computacional e eficiência
+Também é possível executar módulos diretamente:
 
-O protótipo SIFSM pode ser executado em uma CPU convencional. As operações atuais — CRUD dos módulos, avaliação da regra lógica de irrigação, organização de chamados em fila e consultas à tabela hash — são pequenas e sequenciais, portanto não exigem GPU, NPU ou TPU. A CPU é adequada para controlar o fluxo do programa, validar entradas e executar as regras determinísticas.
+```bash
+python src/regras.py
+python src/estruturas.py
+python src/simulacao_computacional.py
+python src/modelagem_linear.py
+python src/alerta_energetico.py
+python -m unittest discover -s tests -v
+```
 
-Na arquitetura proposta para a Aurora Siger, o processamento deve ser distribuído conforme a necessidade. As regras de segurança e automação, como bloquear uma operação diante de uma leitura inválida, devem ser executadas localmente em um controlador embarcado ou microcontrolador. Isso reduz a latência e mantém funções essenciais disponíveis mesmo se a conexão com um servidor central falhar. O armazenamento persistente dos registros pode ficar em um banco de dados local da colônia, com cópias de segurança em outro módulo. A aplicação Python deste repositório representa a camada de controle e análise; o Oracle é a opção de banco prevista no código.
+As simulações e o modelo exibem resultados no terminal e abrem gráficos. O modelo gera/sobrescreve `dados_aurora_siger.csv`; os gráficos são gravados em `docs/graficos_ou_imagens/`. A opção 10 permite avaliar uma leitura manual, o CSV ou imprimir/exportar a tabela-verdade em `data/circuito/`. No modo CSV, os estados de módulo crítico e falha são informados pelo operador, pois não existem nessas colunas do arquivo.
 
-As simulações numéricas e a regressão linear também podem ser executadas na CPU para o volume pequeno de dados usado no protótipo. Uma GPU só seria justificável em análises paralelas maiores, como processamento de imagens ou simulações físicas detalhadas. Uma NPU ou TPU faria sentido apenas se a colônia executasse modelos de IA com grande demanda de inferência; não é requisito para os agentes simulados atuais. Aceleradores aumentam a capacidade em tarefas adequadas, mas têm custo energético e de manutenção, por isso sua adoção deve ser comparada ao benefício obtido.
+## Circuito lógico
 
-A hierarquia de memória influencia o desempenho: dados usados repetidamente podem permanecer em memória principal ou cache, enquanto o banco guarda o histórico persistente. Consultas frequentes e transferências excessivas entre sensores, memória, processador e banco podem consumir tempo e energia. A tabela hash demonstrada no projeto favorece a busca por código em memória, enquanto o banco mantém os dados entre execuções. Em uma implantação, convém transmitir leituras agregadas ou eventos relevantes, em vez de movimentar continuamente todo o histórico. O protótipo não mede consumo real de CPU, memória ou aceleradores; essa análise é conceitual e deverá ser validada com medições na infraestrutura escolhida.
+A regra do alerta é `S = (A ∧ B) ∨ C`: A representa consumo no limite ou acima dele, B indica módulo crítico e C indica falha. A saída aciona o LED e o piezo no sketch. O esquema padronizado está em `circuito_logico.png`; consulte também `docs/circuito/README.md` para tabela-verdade, componentes, mapeamento dos pinos e roteiro de reprodução. A comunicação entre Python e o Arduino é demonstrada por comandos seriais copiados manualmente; não há integração em tempo real.
 
-## 1.8 Sustentabilidade, cidadania digital e impacto socioambiental
+## Escopo acadêmico
 
-O SIFSM relaciona dados, regras e simulações para apoiar o uso responsável dos recursos da Aurora Siger. A regra de irrigação considera se o módulo agrícola está ativo, a umidade e a solicitação manual; a simulação de bateria estima a evolução da carga diante de um perfil de consumo. Esses recursos podem ajudar a identificar condições de desperdício e comparar decisões antes de aplicá-las na colônia. Como os valores usados são simulados, as saídas são apoio à análise e não substituem medições físicas ou validação da tripulação.
-
-A simulação permite testar cenários sem gastar água, energia ou materiais em experimentos reais. Associada ao armazenamento e à automação local, pode apoiar o planejamento de energia e a resiliência: regras críticas continuam operando mesmo com falha de comunicação, e o histórico de eventos ajuda a investigar problemas. Para tornar esse benefício verificável, uma implantação futura deverá comparar previsões com leituras reais e registrar os erros e as limitações dos modelos.
-
-Os registros operacionais podem revelar hábitos, horários e atividades da tripulação. Por isso, os dados devem ser limitados ao necessário para a operação, ter acesso controlado e ser mantidos pelo tempo adequado. Relatórios devem explicar quais informações são coletadas e como são usadas, permitindo transparência e revisão humana. As credenciais do banco não devem ficar expostas no código-fonte; devem ser fornecidas por configuração segura e protegidas contra acesso indevido.
-
-O processamento também tem impacto ambiental: servidores, armazenamento, redes e modelos de IA consomem energia e exigem equipamentos e materiais. No protótipo, os agentes são baseados em regras e não dependem de um modelo pesado, o que evita processamento desnecessário. Caso a solução evolua para IA ou infraestrutura acelerada, a equipe deverá avaliar se o ganho operacional compensa energia, calor, manutenção e recursos utilizados. A tecnologia deve ser acessível e inclusiva, com decisões relevantes explicáveis e supervisão humana, evitando que sugestões automatizadas prejudiquem pessoas ou priorizem eficiência em detrimento da segurança e da dignidade da tripulação.
-
+Leituras, previsões e respostas dos agentes são didáticas ou sintéticas. O Oracle é uma alternativa de persistência externa; o circuito é uma representação embarcada; os agentes são baseados em regras e respostas predefinidas. Veja `relatorio_tecnico.md` para as premissas, limitações, arquitetura e análise socioambiental.
