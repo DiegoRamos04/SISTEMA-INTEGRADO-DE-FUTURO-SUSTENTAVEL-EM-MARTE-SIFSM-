@@ -1,0 +1,2 @@
+PENDENTE: inserir aqui o link do vídeo de apresentação publicado no YouTube como “Não listado”.
+Antes de entregar o ZIP, substituir esta linha pelo link completo e verificar que o vídeo pode ser acessado pelo instrutor.
