@@ -130,7 +130,7 @@ def menu_principal():
             limpar_tela()
             print("Demonstrando operação das Estruturas de Dados...\n")
             # Executa o script de estruturas
-            executar_script("estruturas.py")
+            sincronizar_banco_estruturas()
             input("\nPressione ENTER para continuar...")
             
         elif escolha == '7':
