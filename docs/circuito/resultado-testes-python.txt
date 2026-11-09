@@ -1,0 +1,9 @@
+test_csv_e_comandos (test_alerta.TestAlerta.test_csv_e_comandos) ... ok
+test_invalidos (test_alerta.TestAlerta.test_invalidos) ... ok
+test_limite_e_falha (test_alerta.TestAlerta.test_limite_e_falha) ... ok
+test_oito_combinacoes (test_alerta.TestAlerta.test_oito_combinacoes) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.016s
+
+OK

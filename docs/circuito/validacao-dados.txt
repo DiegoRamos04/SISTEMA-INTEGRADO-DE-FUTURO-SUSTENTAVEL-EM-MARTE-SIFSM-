@@ -1,0 +1,3 @@
+CSV energético do projeto: 200 leituras; 39 alertas com limite didático 150, B=1 e C=0.
+Mesma unidade da coluna Consumo_Energetico; sem conversão entre kW e kWh.
+B e C são estados informados, não medições do CSV.

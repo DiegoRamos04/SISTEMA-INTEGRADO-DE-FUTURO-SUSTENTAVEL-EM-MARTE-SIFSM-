@@ -34,3 +34,18 @@ Tabela esperada, em ordem 000 a 111: **0, 1, 0, 1, 0, 1, 1, 1**.
 
 Validação Python: `python -m unittest discover -s tests -v`.
 O novo sketch ainda precisa ser compilado e validado no simulador.
+
+
+## Arquivos do circuito e validação
+
+![Esquema eletrônico exportado do Tinkercad](docs/circuito/esquema-circuito.png)
+
+- [Esquema original em PDF](docs/circuito/Projeto-FIAP.pdf)
+- [Lista de componentes exportada](docs/circuito/lista-componentes.csv)
+- [Guia da montagem e roteiro de testes](docs/circuito/README.md)
+- [Tabela verdade e comandos para o simulador](docs/circuito/tabela-verdade.csv)
+- [Resultado dos testes Python](docs/circuito/resultado-testes-python.txt)
+
+O PDF e a lista de componentes são exportações fornecidas pelo autor.
+A imagem acima foi renderizada a partir desse PDF. O código Arduino está em
+[simulador/alerta_energetico](simulador/alerta_energetico/alerta_energetico.ino).

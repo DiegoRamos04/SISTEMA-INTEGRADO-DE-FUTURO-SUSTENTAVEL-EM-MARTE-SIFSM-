@@ -1,0 +1,7 @@
+﻿Nome,Quantidade,Componente
+"UArduino",1," Arduino Uno R3"
+"1",1," Placa de ensaio pequena"
+"D1",1,"Vermelho LED"
+"R1",1,"220 Ω Resistor"
+"PIEZO1",1," Piezo"
+"S1, S2, S3",3," Botão"
