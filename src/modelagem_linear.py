@@ -67,7 +67,15 @@ def executar_modelo():
     print(f"MSE: {mse:.4f}")
     print(f"MAE: {mae:.4f}")
     print(f"R²: {r2:.4f}")
-
+    print("\n--- Interpretação dos Coeficientes e Unidades ---")
+    print("1. Temperatura (°C): Coeficiente negativo.")
+    print("   -> Quanto mais frio, maior o gasto com aquecimento.")
+    print("2. Tripulantes (pessoas): Coeficiente positivo.")
+    print("   -> Cada pessoa extra eleva o suporte à vida.")
+    print("3. Tamanho (m²): Coeficiente positivo.")
+    print("   -> Módulos maiores exigem mais energia.")
+    print(f"4. Avaliação (R² = {r2:.2f}):")
+    print("   -> O modelo explica a variação do consumo (kWh didático).")
 
     # 5. Verificação de multicolinearidade (VIF)
 
