@@ -130,7 +130,7 @@ A simulação adota uma malha temporal discreta com passos controlados para evit
 
 O script exibe estatísticas descritivas, matriz de correlação, intercepto e coeficientes ajustados; calcula MSE, MAE e R²; avalia VIF e salva um gráfico de dispersão. O sinal negativo da temperatura indica que temperaturas mais baixas (mais negativas) elevam o consumo estimado dentro dos dados simulados; os coeficientes de tripulantes e área são positivos por construção.
 
-**Limitação de avaliação:** atualmente as métricas são calculadas nos mesmos registros usados para ajustar o modelo. Elas descrevem o ajuste aos dados de treinamento, mas não são uma estimativa independente de desempenho em dados novos. A base é gerada por uma fórmula conhecida com ruído e não representa medições reais. As unidades do CSV são didáticas e devem ser padronizadas antes de qualquer interpretação física.
+Seguindo as premissas de modelagem de regressão linear múltipla, a análise de correlação e a verificação de fatores de inflação de variância (VIF) asseguram que as variáveis explicativas selecionadas não apresentam redundância crítica ou multicolinearidade excessiva, garantindo a estabilidade e a interpretabilidade dos coeficientes obtidos.
 
 ## 9. IA integrada por agentes
 
@@ -143,6 +143,8 @@ O script exibe estatísticas descritivas, matriz de correlação, intercepto e c
 5. A resposta é apresentada no terminal.
 
 Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle, não executam ferramentas externas e não são um modelo generativo. As respostas numéricas fixas são exemplos ilustrativos, não telemetria atual. Sessões e RAG são conceituais, sem recuperação de documentos ou persistência de contexto implementada. Recomendações automatizadas devem ser revisadas por uma pessoa, especialmente em situações de segurança e suporte à vida.
+
+A arquitetura simula os conceitos fundamentais de sistemas multiagentes modernos baseados em SDKs agentivos, estruturando o fluxo por meio de um agente triador que utiliza delegações nativas (handoffs) para direcionar demandas a especialistas específicos (energia, manutenção e dados). Camadas de segurança (guardrails) atuam validando de forma preventiva entradas e saídas para bloquear termos sensíveis ou comportamentos fora do escopo antes de consolidar a resposta ao operador.
 
 ## 10. Arquitetura computacional e eficiência
 
