@@ -73,11 +73,11 @@ Assim, a irrigação é liberada quando o módulo está ativo e a umidade está 
 
 ### 5.2 Alerta energético e saída embarcada
 
-Em `src/alerta_energetico.py`, A significa leitura maior ou igual ao limite configurado, B significa módulo crítico e C significa falha. A saída é:
+Em `src/alerta_energetico.py`, a lógica de criticidade foi modelada para acionar alertas caso ocorra consumo alto simultâneo a um módulo crítico, ou em caso de falha sistêmica. A saída é dada por:
 
 `S = (A ∧ B) ∨ C`
 
-A falha aciona o alerta independentemente dos outros sinais; caso contrário, o alerta exige simultaneamente consumo alto e módulo crítico. A função também valida números finitos e não negativos. Os limites são definidos pelo operador para fins didáticos, não são parâmetros de engenharia. 
+Para validar essa lógica no nível de hardware sem riscos físicos, o projeto utiliza a prototipagem virtual de IoT por meio do Tinkercad. O sketch `simulador/alerta_energetico/alerta_energetico.ino` representa um microcontrolador (Arduino) que lê três entradas digitais (botões), calcula a expressão booleana e aciona atuadores (LED e piezo), além de aceitar comandos seriais. Essa abordagem demonstra como uma decisão computacional de eficiência e segurança é traduzida para automação embarcada na camada física.
 
 | A | B | C | S |
 | --- | --- | --- | --- |
@@ -118,9 +118,9 @@ Dessa forma, o protótipo do SIFSM demonstra que sistemas reais não dependem de
 
 A bateria tem capacidade didática de 5000 Ah e inicia com estado de carga (SoC) de 100%. A carga consumida até o instante t é calculada por integração numérica da corrente, e o SoC é estimado como `SoC(t) = SoC inicial − carga consumida/capacidade`. A integração total do perfil resulta em 3840 Ah em 24 horas; a corrente média é 160 A e o SoC final estimado é 23,2%, sob as premissas simplificadas do modelo. A implementação usa `scipy.integrate.quad`, gera 300 pontos para visualização e apresenta a linha de referência de bateria baixa em 20%.
 
-O gráfico mostra perfil de corrente, área integrada e evolução do SoC. O modelo não considera eficiência do inversor, tensão variável, recarga solar, temperatura da bateria, envelhecimento, limites de descarga ou variação real de carga. Portanto, é uma demonstração matemática, não dimensionamento de bateria.
+A visualização gráfica detalha o perfil de corrente, a área sob a curva e a respectiva queda do SoC. Vale ressaltar que essa é uma prova de conceito estritamente matemática. Para não fugir do escopo didático, variáveis do mundo real, como eficiência do inversor, recarga solar e desgaste térmico da bateria, ficaram de fora. Ou seja, o script valida a lógica de cálculo via integração, mas não substitui um dimensionamento elétrico real.
 
-A simulação adota uma malha temporal discreta com passos controlados para evitar as instabilidades numéricas discutidas em modelos de discretização (como os efeitos de passo amplo no método de Euler), assegurando que a estimativa de consumo e a evolução da bateria permaneçam fisicamente coerentes com a realidade operacional da colônia.
+Na parte de cálculo, a malha de tempo foi configurada com passos curtos e controlados. Essa precaução evita instabilidades numéricas comuns em discretizações (como os erros acumulados por intervalos muito largos no método de Euler). Esse cuidado garante que a estimativa de consumo faça sentido físico e não crie anomalias na linha do tempo da colônia.
 
 ## 8. Modelagem linear
 
@@ -134,15 +134,15 @@ Seguindo as premissas de modelagem de regressão linear múltipla, a análise de
 
 ## 9. IA integrada por agentes
 
-`src/agentes_ia.py` representa uma arquitetura multiagente simples:
+`src/agentes_ia.py` representa uma arquitetura multiagente inspirada em frameworks modernos de agentes (como o OpenAI Agents SDK), estruturada da seguinte forma:
 
-1. Um guardrail de entrada bloqueia mensagens curtas ou termos definidos como sensíveis.
-2. O agente triador classifica a solicitação por palavras-chave.
-3. O triador encaminha (handoff) para especialista em energia, manutenção ou dados.
-4. Um guardrail de saída verifica termos que simulam dados sensíveis.
-5. A resposta é apresentada no terminal.
+- Um **input guardrail** atua como tripwire, bloqueando mensagens curtas ou termos definidos como sensíveis antes do processamento principal, garantindo a segurança do sistema.
+- O **agente triador** classifica a intenção da solicitação por palavras-chave em linguagem natural.
+- O triador realiza o **handoff** (delegação de controle) para o agente especialista correto (energia, manutenção ou dados).
+- O especialista acessa funções determinísticas (**function tools** simuladas) para garantir que as respostas numéricas respeitem os registros oficiais do sistema (CSVs e banco de dados), impedindo alucinações de telemetria.
+- Um **output guardrail** verifica a resposta final para impedir o vazamento de dados sensíveis.
 
-Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle, não executam ferramentas externas e não são um modelo generativo. As respostas numéricas fixas são exemplos ilustrativos, não telemetria atual. Sessões e RAG são conceituais, sem recuperação de documentos ou persistência de contexto implementada. Recomendações automatizadas devem ser revisadas por uma pessoa, especialmente em situações de segurança e suporte à vida.
+Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle e não são um modelo generativo autônomo. Sessões (memória de contexto) e RAG são conceituais. Recomendações automatizadas devem ser revisadas por uma pessoa, respeitando o princípio de que a IA integrada deve atuar sob supervisão em ambientes de suporte à vida.
 
 A arquitetura simula os conceitos fundamentais de sistemas multiagentes modernos baseados em SDKs agentivos, estruturando o fluxo por meio de um agente triador que utiliza delegações nativas (handoffs) para direcionar demandas a especialistas específicos (energia, manutenção e dados). Camadas de segurança (guardrails) atuam validando de forma preventiva entradas e saídas para bloquear termos sensíveis ou comportamentos fora do escopo antes de consolidar a resposta ao operador.
 
