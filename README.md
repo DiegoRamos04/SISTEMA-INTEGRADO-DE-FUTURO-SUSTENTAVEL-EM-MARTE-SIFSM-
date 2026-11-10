@@ -15,8 +15,8 @@ Protótipo acadêmico para organizar informações operacionais da colônia Auro
 | `simulador/alerta_energetico/alerta_energetico.ino` | Sketch para Arduino Uno/Tinkercad, relacionado à regra de alerta. |
 | `docs/circuito/` | Esquema, lista de componentes, tabela-verdade, roteiro e registros de validação do circuito. |
 | `docs/graficos_ou_imagens/` | Gráficos ilustrativos da simulação e do modelo. |
-| `relatorio_tecnico.md` | Relatório técnico completo do protótipo, dados, decisões, limitações e melhorias. |
-| `link_video.txt` | Local para registrar o link não listado da apresentação. Substituir o texto de pendência pelo link final antes de compactar a entrega. |
+| `docs/relatorio_tecnico.md` | Relatório técnico completo do protótipo, dados, decisões, limitações e melhorias. |
+| `docs/link_video.txt` | Local para registrar o link não listado da apresentação. Substituir o texto de pendência pelo link final antes de compactar a entrega. |
 | `tests/test_alerta.py` | Testes automatizados da regra energética e da exportação CSV. |
 
 ## Requisitos
