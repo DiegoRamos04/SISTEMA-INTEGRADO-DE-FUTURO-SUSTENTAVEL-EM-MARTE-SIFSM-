@@ -100,10 +100,15 @@ Embora essa lógica pudesse ser implementada via hardware utilizando circuitos i
 `src/estruturas.py` demonstra três estruturas adequadas a diferentes operações do cenário:
 
 - **Tabela hash (dicionário):** associa código de módulo ao nome e permite busca direta pela chave.
-- **Fila FIFO:** organiza chamados de manutenção na ordem de chegada, atendendo primeiro o chamado mais antigo.
-- **Pilha LIFO:** mantém ações em ordem inversa de registro, útil para consultar/remover o evento mais recente do histórico.
+- **Justificativa:** Diferente de uma busca linear em listas, a função hash transforma a chave em um índice, permitindo busca rápida (complexidade O(1)) e acesso direto aos módulos operacionais, essencial para respostas em tempo real.
 
-As estruturas são mantidas em memória durante a execução e não substituem a persistência do banco. O método de “desfazer” remove a última entrada da pilha; não reverte automaticamente a alteração correspondente no banco.
+- **Fila FIFO:** organiza chamados de manutenção na ordem de chegada, atendendo primeiro o chamado mais antigo.
+- **Justificativa:** Em um ambiente crítico como uma colônia marciana, o suporte técnico ou os chamados de manutenção devem seguir uma regra justa e sequencial. A estrutura de Fila garante o princípio FIFO, assegurando que as solicitações da tripulação não sejam negligenciadas e que quem acionou o sistema primeiro seja o primeiro a ter seu problema resolvido.
+
+- **Pilha LIFO:** mantém ações em ordem inversa de registro, útil para consultar/remover o evento mais recente do histórico.
+- **Justificativa:** Sistemas de controle frequentemente exigem o registro de ações para permitir auditorias ou a função de "desfazer" falhas operacionais. A estrutura de Pilha aplica a lógica natural do princípio LIFO, onde a última ação realizada pelo sistema ou operador fica no topo, sendo a primeira a ser acessada e desfeita em caso de necessidade. As estruturas são mantidas em memória durante a execução e não substituem a persistência do banco. O método de “desfazer” remove a última entrada da pilha; não reverte automaticamente a alteração correspondente no banco.
+
+Dessa forma, o protótipo do SIFSM demonstra que sistemas reais não dependem de uma única estrutura de dados, combinando de forma orquestrada a busca rápida da Tabela Hash, a fila de atendimento FIFO e a pilha de histórico LIFO para resolver cada parte do problema com a solução mais adequada.
 
 ## 7. Simulação computacional e matemática
 
@@ -152,6 +157,8 @@ Dados de operação podem revelar horários, hábitos e atividades da tripulaç�
 ## 12. Tratamento de erros e validação
 
 O projeto inclui validação de bits e números no alerta, verificação de CSV e tratamento de exceções em operações de banco, regras, simulação e agentes. `tests/test_alerta.py` cobre as oito combinações da tabela-verdade, casos no limite, falha, entradas inválidas, leitura de CSV e exportação de comandos. O arquivo `docs/circuito/resultado-testes-python.txt` registra uma execução anterior desses testes; isso não equivale a teste do Oracle nem validação física do circuito.
+
+As operações de banco de dados, regras e simulação utilizam blocos estruturados de `try` e `except` para capturar falhas operacionais e de conexão (como `ValueError` ou falhas no Oracle) sem abortar o sistema abruptamente, empregando também `else` para fluxos de sucesso e `finally` para encerramentos seguros de operação, garantindo a estabilidade exigida na infraestrutura.
 
 ## 13. Limitações e melhorias futuras
 
