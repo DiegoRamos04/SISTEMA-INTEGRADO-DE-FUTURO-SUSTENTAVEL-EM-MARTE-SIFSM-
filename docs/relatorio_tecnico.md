@@ -120,6 +120,8 @@ A bateria tem capacidade didática de 5000 Ah e inicia com estado de carga (SoC)
 
 O gráfico mostra perfil de corrente, área integrada e evolução do SoC. O modelo não considera eficiência do inversor, tensão variável, recarga solar, temperatura da bateria, envelhecimento, limites de descarga ou variação real de carga. Portanto, é uma demonstração matemática, não dimensionamento de bateria.
 
+A simulação adota uma malha temporal discreta com passos controlados para evitar as instabilidades numéricas discutidas em modelos de discretização (como os efeitos de passo amplo no método de Euler), assegurando que a estimativa de consumo e a evolução da bateria permaneçam fisicamente coerentes com a realidade operacional da colônia.
+
 ## 8. Modelagem linear
 
 `src/modelagem_linear.py` gera dados sintéticos e ajusta regressão linear múltipla para estimar `Consumo_Energetico` com temperatura externa, quantidade de tripulantes e área do módulo. A relação sintética usada para criar o alvo é aproximadamente:
