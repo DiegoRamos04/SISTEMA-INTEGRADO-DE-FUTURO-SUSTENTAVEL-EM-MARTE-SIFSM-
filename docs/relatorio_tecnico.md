@@ -21,7 +21,9 @@ O protótipo reúne cadastro de módulos, análise de consumo, regra de alerta, 
 - `docs/circuito/circuito_logico.png`: cópia do esquema com o nome padronizado para a entrega ZIP.
 - `simulador/alerta_energetico/alerta_energetico.ino`: lógica de circuito para Arduino Uno/Tinkercad.
 - `docs/circuito/`: pasta contendo o PDF do projeto, README específico, arquivos CSV (como lista de componentes e tabela verdade) e evidências de validação (arquivos .txt).
-- `docs/graficos_ou_imagens/`: gráficos gerados pela simulação (simulacao_bateria.png) e pelo modelo (grafico_dispersao.png), além do arquivo link_video.txt e o próprio relatorio_tecnico.md.
+- `docs/relatorio_tecnico.md`: dentro da pasta docs, temos o nosso relatório técnico, que contempla toda a explicação técnica do projeto.
+- `docs/link_video.txt`: dentro da pasta docs, temos o link do vídeo de apresentação do projeto no Youtube.
+- `docs/graficos_ou_imagens/`: gráficos gerados pela simulação (simulacao_bateria.png) e pelo modelo (grafico_dispersao.png), além do print de execução do menu do algoritmo (menu_execucao.png).
 - `tests/`: diretório contendo os testes do projeto, incluindo test_alerta.py.
 
 ## 3. Dados e armazenamento
