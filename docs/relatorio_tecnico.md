@@ -152,13 +152,11 @@ O projeto inclui validação de bits e números no alerta, verificação de CSV 
 ## 13. Limitações e melhorias futuras
 
 - Usar variáveis de ambiente ou gerenciador de segredos para o Oracle e consultas SQL parametrizadas.
+- Evoluir a interface textual (CLI/Terminal) para um Dashboard Web interativo.
+- Substituir a simulação do Tinkercad e a leitura de arquivos CSV locais por sensores IoT reais.
+- Expandir os agentes simulados conectando-os a uma API real de LLM (como OpenAI ou Google Gemini) utilizando arquitetura RAG
 - Validar CRUD no Oracle com dados de teste ou oferecer persistência local equivalente para demonstração sem rede.
-- Integrar a sincronização do banco com as estruturas de dados e tratar indisponibilidade do banco de forma explícita.
-- Validar o sketch no Tinkercad, registrar captura e resultados observados e comparar com a tabela-verdade.
-- Padronizar e documentar unidades de consumo e as premissas físicas.
-- Separar treino e teste (ou usar validação cruzada) no modelo linear e interpretar métricas em dados não vistos.
 - Substituir respostas fixas dos agentes por funções determinísticas ligadas ao CSV/banco, mantendo revisão humana e guardrails.
-- Criar uma opção ou roteiro de análise integrada que reúna registros, regra, alerta, simulação, previsão e recomendação com limitações.
 - Medir uso de recursos computacionais somente em uma implantação de referência, sem atribuir ao protótipo resultados não coletados.
 
 ## 14. Síntese
