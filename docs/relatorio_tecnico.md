@@ -154,7 +154,7 @@ O projeto inclui validação de bits e números no alerta, verificação de CSV 
 - Usar variáveis de ambiente ou gerenciador de segredos para o Oracle e consultas SQL parametrizadas.
 - Evoluir a interface textual (CLI/Terminal) para um Dashboard Web interativo.
 - Substituir a simulação do Tinkercad e a leitura de arquivos CSV locais por sensores IoT reais.
-- Expandir os agentes simulados conectando-os a uma API real de LLM (como OpenAI ou Google Gemini) utilizando arquitetura RAG
+- Expandir os agentes simulados conectando-os a uma API real de LLM (como OpenAI ou Google Gemini) utilizando arquitetura RAG.
 - Validar CRUD no Oracle com dados de teste ou oferecer persistência local equivalente para demonstração sem rede.
 - Substituir respostas fixas dos agentes por funções determinísticas ligadas ao CSV/banco, mantendo revisão humana e guardrails.
 - Medir uso de recursos computacionais somente em uma implantação de referência, sem atribuir ao protótipo resultados não coletados.
