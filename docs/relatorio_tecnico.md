@@ -118,7 +118,7 @@ Dessa forma, o protótipo do SIFSM demonstra que sistemas reais não dependem de
 
 A bateria tem capacidade didática de 5000 Ah e inicia com estado de carga (SoC) de 100%. A carga consumida até o instante t é calculada por integração numérica da corrente, e o SoC é estimado como `SoC(t) = SoC inicial − carga consumida/capacidade`. A integração total do perfil resulta em 3840 Ah em 24 horas; a corrente média é 160 A e o SoC final estimado é 23,2%, sob as premissas simplificadas do modelo. A implementação usa `scipy.integrate.quad`, gera 300 pontos para visualização e apresenta a linha de referência de bateria baixa em 20%.
 
-A visualização gráfica detalha o perfil de corrente, a área sob a curva e a respectiva queda do SoC ([simulacao_bateria.png](docs/graficos_ou_imagens/simulacao_bateria.png)). Vale ressaltar que essa é uma prova de conceito estritamente matemática. Para não fugir do escopo didático, variáveis do mundo real, como eficiência do inversor, recarga solar e desgaste térmico da bateria, ficaram de fora. Ou seja, o script valida a lógica de cálculo via integração, mas não substitui um dimensionamento elétrico real.
+A visualização gráfica detalha o perfil de corrente, a área sob a curva e a respectiva queda do SoC [simulacao_bateria.png](docs/graficos_ou_imagens/simulacao_bateria.png). Vale ressaltar que essa é uma prova de conceito estritamente matemática. Para não fugir do escopo didático, variáveis do mundo real, como eficiência do inversor, recarga solar e desgaste térmico da bateria, ficaram de fora. Ou seja, o script valida a lógica de cálculo via integração, mas não substitui um dimensionamento elétrico real.
 
 Na parte de cálculo, a malha de tempo foi configurada com passos curtos e controlados. Essa precaução evita instabilidades numéricas comuns em discretizações (como os erros acumulados por intervalos muito largos no método de Euler). Esse cuidado garante que a estimativa de consumo faça sentido físico e não crie anomalias na linha do tempo da colônia.
 
@@ -128,7 +128,7 @@ Na parte de cálculo, a malha de tempo foi configurada com passos curtos e contr
 
 `Consumo = 50 − 0,6 × Temperatura + 4,5 × Tripulantes + 0,3 × Área + ruído`.
 
-O script exibe estatísticas descritivas, matriz de correlação, intercepto e coeficientes ajustados; calcula MSE, MAE e R²; avalia VIF e salva um gráfico de dispersão ([grafico_dispersao.png](docs/graficos_ou_imagens/grafico_dispersao.png)). O sinal negativo da temperatura indica que temperaturas mais baixas (mais negativas) elevam o consumo estimado dentro dos dados simulados; os coeficientes de tripulantes e área são positivos por construção.
+O script exibe estatísticas descritivas, matriz de correlação, intercepto e coeficientes ajustados; calcula MSE, MAE e R²; avalia VIF e salva um gráfico de dispersão [grafico_dispersao.png](docs/graficos_ou_imagens/grafico_dispersao.png). O sinal negativo da temperatura indica que temperaturas mais baixas (mais negativas) elevam o consumo estimado dentro dos dados simulados; os coeficientes de tripulantes e área são positivos por construção.
 
 Seguindo as premissas de modelagem de regressão linear múltipla, a análise de correlação e a verificação de fatores de inflação de variância (VIF) asseguram que as variáveis explicativas selecionadas não apresentam redundância crítica ou multicolinearidade excessiva, garantindo a estabilidade e a interpretabilidade dos coeficientes obtidos.
 
