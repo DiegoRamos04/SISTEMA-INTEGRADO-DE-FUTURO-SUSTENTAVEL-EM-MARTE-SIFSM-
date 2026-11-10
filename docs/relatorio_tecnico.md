@@ -90,7 +90,7 @@ Para validar essa lógica no nível de hardware sem riscos físicos, o projeto u
 | 1 | 1 | 0 | 1 |
 | 1 | 1 | 1 | 1 |
 
-O sketch `simulador/alerta_energetico/alerta_energetico.ino` lê três botões, calcula a mesma expressão, aciona LED e piezo e aceita os comandos seriais `SET 000` a `SET 111`; `BTN` retorna ao modo de botões. O mapeamento dos pinos e o roteiro estão em `docs/circuito/README.md`. Python exporta os comandos para reprodução manual; não há comunicação automática. A documentação registra testes do código Python, enquanto a validação compilada no Tinkercad deve ser tratada como pendente até que seja executada e registrada.
+O mapeamento dos pinos e o roteiro de uso estão descritos em `docs/circuito/README.md`. Vale destacar que o script em Python apenas exporta os comandos para reprodução manual, pois não há comunicação automática em tempo de execução. Enquanto a documentação registra os testes do código Python, a validação compilada no Tinkercad deve ser tratada como pendente até que seja totalmente executada e registrada.
 
 Embora essa lógica pudesse ser implementada via hardware utilizando circuitos integrados de portas lógicas (como a família 74HC), optou-se pela simulação via microcontrolador (Arduino) devido à maior flexibilidade de integração com o restante do sistema em Python.
 
