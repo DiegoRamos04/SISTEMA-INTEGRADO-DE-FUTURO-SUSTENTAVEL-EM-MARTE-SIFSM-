@@ -16,13 +16,13 @@ O protótipo reúne cadastro de módulos, análise de consumo, regra de alerta, 
 - `src/simulacao_computacional.py`: modelo de descarga da bateria e gráficos.
 - `src/modelagem_linear.py`: geração/análise de dados e regressão múltipla.
 - `src/agentes_ia.py`: triagem, agentes especialistas, handoffs e guardrails simulados.
-- `data/circuito/script_banco.sql`: definição da tabela Oracle (movido para dentro de data/circuito).
+- `data/script_banco.sql`: definição da tabela Oracle.
 - `dados_aurora_siger.csv`: base sintética de consumo e características dos módulos, localizada na raiz do projeto.
 - `docs/circuito/circuito_logico.png`: cópia do esquema com o nome padronizado para a entrega ZIP.
 - `simulador/alerta_energetico/alerta_energetico.ino`: lógica de circuito para Arduino Uno/Tinkercad.
 - `docs/circuito/`: pasta contendo o PDF do projeto, README específico, arquivos CSV (como lista de componentes e tabela verdade) e evidências de validação (arquivos .txt).
 - `docs/relatorio_tecnico.md`: dentro da pasta docs, temos o nosso relatório técnico, que contempla toda a explicação técnica do projeto.
-- `docs/link_video.txt`: dentro da pasta docs, temos o link do vídeo de apresentação do projeto no Youtube.
+- `docs/link_video.txt`: arquivo reservado ao link do vídeo; no estado atual contém um lembrete de pendência, não um link publicado.
 - `docs/graficos_ou_imagens/`: gráficos gerados pela simulação (simulacao_bateria.png) e pelo modelo (grafico_dispersao.png), além do print de execução do menu do algoritmo (menu_execucao.png).
 - `tests/`: diretório contendo os testes do projeto, incluindo test_alerta.py.
 
@@ -43,9 +43,7 @@ A geração usa semente aleatória fixa (`42`) para permitir reproduzir os mesmo
 
 ### 3.2 Banco relacional e CRUD
 
-`data/script_banco.sql` cria a tabela Oracle `modulos_aurora`, com `id_modulo` como chave primária de identidade, `nome_modulo`, `consumo_energia` e `status_operacional`. O módulo `src/banco_de_dados.py` prevê as operações CREATE, READ, UPDATE e DELETE: cadastrar, listar, alterar consumo/status e excluir módulo por ID. O CRUD depende de Oracle acessível, driver `oracledb`, credenciais válidas e tabela previamente criada. A execução local sem banco não comprova transações no Oracle.
-
-As credenciais devem ser fornecidas por configuração segura e nunca incluídas na entrega pública. Antes de distribuir o projeto, substituir credenciais eventualmente presentes no código e rotacionar senhas já expostas.
+`data/script_banco.sql` cria a tabela Oracle `modulos_aurora`, com `id_modulo` como chave primária de identidade, `nome_modulo`, `consumo_energia` e `status_operacional`. O módulo `src/banco_de_dados.py` prevê as operações CREATE, READ, UPDATE e DELETE: cadastrar, listar, alterar consumo/status e excluir módulo por ID. O CRUD depende de Oracle acessível, driver `oracledb`, credenciais válidas e tabela previamente criada. A execução local sem banco não comprova transações no Oracle. No cadastro, o ID é gerado pela tabela; a interface pede nome, consumo e status.
 
 ## 4. Menu e fluxos demonstráveis
 
@@ -55,13 +53,13 @@ Execute `python codigo_fonte.py` na raiz. As opções do menu são:
 | --- | --- | --- |
 | 1–4 | CRUD de módulos | Oracle; solicita dados e apresenta resultado/erro |
 | 5 | Regra de irrigação | Entrada booleana 0/1 e decisão liberada/bloqueada |
-| 6 | Estruturas de dados | Demonstra busca hash, fila FIFO e pilha LIFO |
+| 6 | Sincronização e estruturas de dados | Lê módulos do Oracle e os carrega em hash e fila; requer conexão Oracle |
 | 7 | Simulação de bateria | NumPy, SciPy e Matplotlib; imprime valores e exibe gráfico |
 | 8 | Modelo linear de consumo | Pandas, NumPy, scikit-learn, statsmodels e Matplotlib; imprime análise e exibe gráfico |
 | 9 | Assistente da colônia | Agentes simulados com roteamento e guardrails |
 | 10 | Alerta energético/circuito | Local; leitura manual, CSV ou tabela-verdade; exporta CSV para `data/circuito/` |
 
-O menu principal possui ainda `0` para encerrar. Também é possível executar cada módulo separadamente; os comandos estão no README.
+O menu principal possui ainda `0` para encerrar. A opção 6 depende do Oracle e não possui fallback local; para demonstrar hash, fila e pilha sem banco, execute `python src/estruturas.py`.
 
 ## 5. Regras lógicas e circuito
 
@@ -79,7 +77,7 @@ Em `src/alerta_energetico.py`, a lógica de criticidade foi modelada para aciona
 
 `S = (A ∧ B) ∨ C`
 
-Para validar essa lógica no nível de hardware sem riscos físicos, o projeto utiliza a prototipagem virtual de IoT por meio do Tinkercad. O sketch `simulador/alerta_energetico/alerta_energetico.ino` representa um microcontrolador (Arduino) que lê três entradas digitais (botões), calcula a expressão booleana e aciona atuadores (LED e piezo), além de aceitar comandos seriais. Essa abordagem demonstra como uma decisão computacional de eficiência e segurança é traduzida para automação embarcada na camada física.
+Para representar essa lógica no nível de hardware, o projeto inclui um sketch para prototipagem virtual de IoT com Arduino Uno/Tinkercad. O arquivo `simulador/alerta_energetico/alerta_energetico.ino` lê três entradas digitais (botões), calcula a expressão booleana e aciona atuadores (LED e piezo), além de aceitar comandos seriais. O sketch ainda precisa ser compilado e executado no Tinkercad; até que essa validação seja registrada, o circuito deve ser apresentado como implementação proposta, não como teste concluído.
 
 | A | B | C | S |
 | --- | --- | --- | --- |
@@ -122,7 +120,7 @@ A bateria tem capacidade didática de 5000 Ah e inicia com estado de carga (SoC)
 
 A visualização gráfica detalha o perfil de corrente, a área sob a curva e a respectiva queda do SoC, conforme ilustrado em `(simulacao_bateria.png)`. Vale ressaltar que essa é uma prova de conceito estritamente matemática. Para não fugir do escopo didático, variáveis do mundo real, como eficiência do inversor, recarga solar e desgaste térmico da bateria, ficaram de fora. Ou seja, o script valida a lógica de cálculo via integração, mas não substitui um dimensionamento elétrico real.
 
-Na parte de cálculo, a malha de tempo foi configurada com passos curtos e controlados. Essa precaução evita instabilidades numéricas comuns em discretizações (como os erros acumulados por intervalos muito largos no método de Euler). Esse cuidado garante que a estimativa de consumo faça sentido físico e não crie anomalias na linha do tempo da colônia.
+O código usa `scipy.integrate.quad` para calcular as integrais; a malha de 300 instantes é usada para desenhar as curvas, não como método de integração. A resolução dessa malha afeta a suavidade visual do gráfico, enquanto a integração numérica é calculada pela rotina de quadratura. Os valores continuam sujeitos às premissas simplificadas do perfil de corrente.
 
 ## 8. Modelagem linear
 
@@ -130,21 +128,21 @@ Na parte de cálculo, a malha de tempo foi configurada com passos curtos e contr
 
 `Consumo = 50 − 0,6 × Temperatura + 4,5 × Tripulantes + 0,3 × Área + ruído`.
 
-O script exibe estatísticas descritivas, matriz de correlação, intercepto e coeficientes ajustados; calcula MSE, MAE e R²; avalia VIF e salva um gráfico de dispersão `(grafico_dispersao.png)`. O sinal negativo da temperatura indica que temperaturas mais baixas (mais negativas) elevam o consumo estimado dentro dos dados simulados; os coeficientes de tripulantes e área são positivos por construção.
+O script exibe estatísticas descritivas e matriz de correlação, separa os registros em 80% para treino e 20% para teste com `train_test_split`, ajusta o modelo somente no conjunto de treino e calcula MSE, MAE e R² no conjunto de teste. Também imprime a interpretação qualitativa dos coeficientes, calcula VIF e salva um gráfico de dispersão em `docs/graficos_ou_imagens/grafico_dispersao.png`. O sinal negativo da temperatura indica que temperaturas mais baixas (mais negativas) elevam o consumo estimado dentro dos dados simulados; os coeficientes de tripulantes e área são positivos por construção.
 
-Seguindo as premissas de modelagem de regressão linear múltipla, a análise de correlação e a verificação de fatores de inflação de variância (VIF) asseguram que as variáveis explicativas selecionadas não apresentam redundância crítica ou multicolinearidade excessiva, garantindo a estabilidade e a interpretabilidade dos coeficientes obtidos.
+A separação treino/teste oferece uma avaliação mais informativa do que medir o ajuste nos mesmos dados usados para treinar. Ainda assim, o teste é feito em uma base sintética criada pela mesma fórmula e não comprova desempenho com dados reais. O VIF é calculado e exibido, mas seus valores precisam ser interpretados; calcular essa métrica, por si só, não comprova ausência de multicolinearidade. As unidades e o alvo permanecem didáticos, sem validação física.
 
 ## 9. IA integrada por agentes
 
 `src/agentes_ia.py` representa uma arquitetura multiagente inspirada em frameworks modernos de agentes (como o OpenAI Agents SDK), estruturada da seguinte forma:
 
-- Um **input guardrail** atua como tripwire, bloqueando mensagens curtas ou termos definidos como sensíveis antes do processamento principal, garantindo a segurança do sistema.
+- Um **input guardrail** bloqueia mensagens curtas ou termos definidos como sensíveis antes do processamento principal. É uma demonstração simples de filtragem, não uma garantia completa de segurança.
 - O **agente triador** classifica a intenção da solicitação por palavras-chave em linguagem natural.
 - O triador realiza o **handoff** (delegação de controle) para o agente especialista correto (energia, manutenção ou dados).
-- O especialista acessa funções determinísticas (**function tools** simuladas) para garantir que as respostas numéricas respeitem os registros oficiais do sistema (CSVs e banco de dados), impedindo alucinações de telemetria.
+- Os especialistas retornam textos predefinidos por correspondência de palavras-chave. No código atual, não há funções determinísticas conectadas ao CSV ou ao banco; valores apresentados pelos agentes são exemplos fictícios, não telemetria consultada.
 - Um **output guardrail** verifica a resposta final para impedir o vazamento de dados sensíveis.
 
-Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle e não são um modelo generativo autônomo. Sessões (memória de contexto) e RAG são conceituais. Recomendações automatizadas devem ser revisadas por uma pessoa, respeitando o princípio de que a IA integrada deve atuar sob supervisão em ambientes de suporte à vida.
+Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle nem o CSV e não são um modelo generativo autônomo. Sessões (memória de contexto), RAG e ferramentas conectadas são possibilidades conceituais, não funcionalidades implementadas. Recomendações automatizadas devem ser revisadas por uma pessoa, especialmente em assuntos de segurança e suporte à vida.
 
 ## 10. Arquitetura computacional e eficiência
 
@@ -156,9 +154,9 @@ Para lidar com o gargalo de movimentação de dados e poupar a largura de banda,
 
 ## 11. Sustentabilidade, cidadania digital e impacto socioambiental
 
-O SIFSM reflete uma arquitetura de integração dividida em três níveis: a **camada física** (representada pelo circuito e módulos), a **camada de controle** (regras lógicas em Python e automação local) e a **camada analítica** (simulação matemática e regressão). A articulação dessas camadas demonstra como a integração entre energia, dados, automação e simulação contribui diretamente para o uso responsável dos recursos. Ao simular hipóteses em ambiente virtual antes de consumir insumos físicos, o sistema otimiza a operação e apoia uma colônia mais autônoma e resiliente, utilizando redes inteligentes e armazenamento para lidar com contingências.
+O SIFSM pode ser descrito em três níveis: a **camada física** (representada conceitualmente pelo circuito e módulos), a **camada de controle** (regras lógicas em Python e sketch Arduino) e a **camada analítica** (simulação matemática e regressão). Essa organização ilustra como integrar energia, dados, automação e simulação para apoiar decisões de uso de recursos. Simular hipóteses antes de experimentos físicos pode reduzir desperdício, mas o protótipo não mede essa redução nem controla uma rede inteligente ou armazenamento real.
 
-Do ponto de vista institucional, o projeto alinha-se aos princípios **ESG** (Ambiental, Social e de Governança), assumindo uma postura de inovação responsável. A cidadania digital e a economia dos dados são tratadas com rigor, reconhecendo que dados operacionais podem revelar a rotina e a privacidade da tripulação, o que exige transparência, retenção mínima e proteção contra usos indevidos. Além disso, ao otimizar processos localmente e evitar processamentos desnecessários, o sistema mitiga os impactos ambientais (como consumo de energia e dissipação de calor) gerados por infraestruturas de IA e data centers. 
+Do ponto de vista socioambiental, o projeto considera princípios de inovação responsável. Dados operacionais podem revelar rotinas e aspectos privados da tripulação; uma implantação exigiria transparência, retenção mínima e proteção contra usos indevidos. Servidores, redes, armazenamento e IA também podem consumir energia e gerar calor. O protótipo não mede esses impactos; discute como eles deveriam ser considerados ao escolher infraestrutura e processamento.
 
 Por fim, as sugestões autônomas geradas pelo sistema são mantidas sob revisão humana, reforçando que a tecnologia deve ser socialmente responsável, diversa e voltada estritamente para a preservação do equilíbrio e da segurança da vida na colônia Aurora Siger.
 
@@ -166,7 +164,7 @@ Por fim, as sugestões autônomas geradas pelo sistema são mantidas sob revisã
 
 O projeto inclui validação de bits e números no alerta, verificação de CSV e tratamento de exceções em operações de banco, regras, simulação e agentes. `tests/test_alerta.py` cobre as oito combinações da tabela-verdade, casos no limite, falha, entradas inválidas, leitura de CSV e exportação de comandos. O arquivo `docs/circuito/resultado-testes-python.txt` registra uma execução anterior desses testes; isso não equivale a teste do Oracle nem validação física do circuito.
 
-As operações de banco de dados, regras e simulação utilizam blocos estruturados de `try` e `except` para capturar falhas operacionais e de conexão (como `ValueError` ou falhas no Oracle) sem abortar o sistema abruptamente, empregando também `else` para fluxos de sucesso e `finally` para encerramentos seguros de operação, garantindo a estabilidade exigida na infraestrutura.
+Há blocos `try`/`except` em partes relevantes do banco, das regras, da simulação e dos agentes; alguns fluxos também usam `else` e `finally`. Isso demonstra tratamento de erros no protótipo, mas não garante que todo erro possível seja tratado. Por exemplo, a sincronização da opção 6 depende de conexão Oracle e apenas informa a falha, sem oferecer demonstração local alternativa.
 
 ## 13. Limitações e melhorias futuras
 
@@ -175,11 +173,12 @@ As operações de banco de dados, regras e simulação utilizam blocos estrutura
 - Substituir a simulação do Tinkercad e a leitura de arquivos CSV locais por sensores IoT reais.
 - Expandir os agentes simulados conectando-os a uma API real de LLM (como OpenAI ou Google Gemini) utilizando arquitetura RAG.
 - Validar CRUD no Oracle com dados de teste ou oferecer persistência local equivalente para demonstração sem rede.
-- Substituir respostas fixas dos agentes por funções determinísticas ligadas ao CSV/banco, mantendo revisão humana e guardrails.
+- Se a equipe decidir avançar além da simulação, conectar funções determinísticas dos agentes ao CSV/banco, mantendo revisão humana e guardrails.
+- Repetir a avaliação do modelo com dados independentes ou reais, se forem disponibilizados, e interpretar os valores de VIF observados.
 - Medir uso de recursos computacionais somente em uma implantação de referência, sem atribuir ao protótipo resultados não coletados.
 
 ## 14. Síntese
 
-No contexto acadêmico, o SIFSM cumpriu o que propôs ao amarrar bem as tecnologias estudadas ao longo da fase. O projeto integrou a navegação via menu no terminal, as operações de CRUD integradas ao banco e a arquivos auxiliares, além de validações com tratamento de erros. A prática mostrou que dá para conectar regras lógicas booleanas à automação embarcada, organizar o fluxo da colônia usando estruturas de dados adequadas (tabelas hash, filas e pilhas) e embasar as decisões com simulações matemáticas e modelos de regressão múltipla. O sistema também incorporou conceitos de arquitetura de hardware, fluxos multiagentes inteligentes e uma reflexão crítica sobre sustentabilidade e cidadania digital.
+No contexto acadêmico, o SIFSM reúne navegação por menu, CRUD previsto para Oracle, arquivo CSV, regras booleanas, estruturas de dados, simulação matemática, regressão múltipla e agentes simulados, além de discussões sobre arquitetura e sustentabilidade. As funcionalidades são demonstradas em opções separadas; o programa ainda não reúne os resultados em uma análise operacional única com recomendação final.
 
-Cabe destacar que algumas partes dependem de infraestruturas externas, como a persistência no Oracle e a validação física dos circuitos no Tinkercad, funcionando nesta etapa como dependências ou modelos conceituais de simulação. Além disso, as análises dependem de bases de dados sintéticas e das simplificações assumidas no projeto. No fim das contas, a entrega funciona como uma prova de conceito coesa para apoiar a gestão e a autonomia da colônia Aurora Siger.
+Algumas partes dependem de infraestrutura externa, como a persistência no Oracle e a validação do circuito no Tinkercad. Nesta etapa, os resultados analíticos usam dados sintéticos e simplificações descritas neste relatório. Assim, o SIFSM deve ser entendido como uma prova de conceito acadêmica, não como um sistema operacional validado para a colônia.
