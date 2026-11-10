@@ -9,7 +9,7 @@ os arquivos usados para reproduzir a validação da regra `(A && B) || C`.
 | --- | --- |
 | [Projeto-FIAP.pdf](Projeto-FIAP.pdf) | Esquema original fornecido, sem alterações |
 | [lista-componentes.csv](lista-componentes.csv) | Lista original fornecida, sem alterações |
-| [circuito_logico.png](esquema-circuito.png) | Prévia renderizada do PDF |
+| [circuito_logico.png](circuito_logico.png) | Prévia renderizada do PDF |
 | [tabela-verdade.csv](tabela-verdade.csv) | Oito estados esperados e comandos serial |
 | [resultado-testes-python.txt](resultado-testes-python.txt) | Saída da execução dos testes automatizados |
 | [validacao-dados.txt](validacao-dados.txt) | Resultado de uma avaliação do CSV energético |
