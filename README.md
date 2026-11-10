@@ -36,13 +36,13 @@ source .venv/bin/activate
 python -m pip install numpy pandas matplotlib scipy scikit-learn statsmodels oracledb
 ```
 
-## Configuração do banco
+## Configuração do Banco de Dados (Oracle)
+Para que os avaliadores possam testar as operações de CRUD (Opções 1 a 4) e a integração de dados (Opção 6), é necessário apontar o sistema para o banco de dados da FIAP:
 
-1. Crie a tabela executando `data/script_banco.sql` no Oracle.
-2. Configure as credenciais e o DSN do Oracle no módulo `src/banco_de_dados.py` antes de usar o CRUD.
-3. As opções 1 a 4 do menu dependem do Oracle e de uma rede com acesso ao servidor. Se o banco não estiver disponível, utilize as opções locais e apresente o CRUD como dependente do serviço externo.
+1. Criar a tabela: Execute o script `data/circuito/script_banco.sql` no seu ambiente Oracle (ex: SQL Developer) para criar a tabela modulos_aurora.
+2. Configurar credenciais: Abra o arquivo `src/banco_de_dados.py`. Nas variáveis de conexão logo no início do código, insira o seu Usuário (RM), Senha e DSN (oracle.fiap.com.br:1521/orcl) para habilitar o acesso.
 
-**Antes de compartilhar a entrega, substitua qualquer credencial que tenha sido incluída diretamente no código e revogue/rotacione a senha exposta.** Não publique senhas em ZIP, Git ou capturas de tela.
+> **Aviso:** Caso o banco de dados não seja configurado, as demais opções locais e simulações matemáticas do sistema (5, 7, 8, 9 e 10) continuarão executando normalmente.
 
 ## Como executar
 
@@ -51,9 +51,17 @@ Na raiz do projeto:
 ```bash
 python codigo_fonte.py
 ```
+## Navegação no Menu SIFSM
+Ao iniciar o programa, será apresentado um menu com 10 opções principais. Abaixo, um resumo de como utilizar cada bloco do sistema:
 
-O menu apresenta as opções de CRUD (1–4, Oracle), regra de irrigação (5), estruturas de dados (6), simulação da bateria (7), modelo linear (8), assistente multiagente simulado (9) e alerta energético/circuito (10). Digite `0` para sair.
-
+- Opções de 1 a 4 (Gestão de Dados / CRUD): Utilizadas para gerenciar os módulos da colônia no banco de dados Oracle. Exemplo de uso: Escolha a opção 1 para cadastrar um novo módulo, informando o seu ID, nome e consumo energético.
+- Opção 5 (Regra Booleana de Irrigação): Aciona a lógica condicional baseada no status dos sensores de umidade para determinar se a irrigação do módulo agrícola deve ser ativada.
+- Opção 6 (Estruturas de Dados em Memória): Demonstra a sincronização e manipulação dos dados utilizando Tabela Hash (para buscas rápidas por ID) e Filas (para processamento sequencial).
+- Opção 7 (Simulação Computacional): Executa o modelo numérico de descarga de bateria da colônia, gerando e exibindo gráficos temporais que são salvos na pasta docs/graficos_ou_imagens/.
+- Opção 8 (Modelagem Linear): Executa a geração de dados, treino, separação de base de teste e avaliação da regressão múltipla do consumo energético. Esta etapa gera automaticamente o arquivo dados_aurora_siger.csv.
+- Opção 9 (Assistente de IA / Sistema Multiagente): Testa o agente triador simulado, que avalia a solicitação da tripulação, aciona guardrails (regras de escopo) e faz o handoff para agentes especialistas (Energia, Manutenção, etc.).
+- Opção 10 (Alerta Energético e Circuito Lógico): Demonstra a regra booleana (A e B) ou C. Permite testar leituras manuais, processar lotes via CSV ou gerar a Tabela Verdade, simulando a comunicação serial para o Arduino/Tinkercad.
+  
 Também é possível executar módulos diretamente:
 
 ```bash
@@ -62,11 +70,16 @@ python src/estruturas.py
 python src/simulacao_computacional.py
 python src/modelagem_linear.py
 python src/alerta_energetico.py
-python -m unittest discover -s tests -v
 ```
 
 As simulações e o modelo exibem resultados no terminal e abrem gráficos. O modelo gera/sobrescreve `dados_aurora_siger.csv`; os gráficos são gravados em `docs/graficos_ou_imagens/`. A opção 10 permite avaliar uma leitura manual, o CSV ou imprimir/exportar a tabela-verdade em `data/circuito/`. No modo CSV, os estados de módulo crítico e falha são informados pelo operador, pois não existem nessas colunas do arquivo.
 
+## Rodando os testes automatizados
+Para validar a integridade das lógicas de alerta, utilize o comando de testes nativo do Python:
+
+```bash
+python -m unittest discover -s tests -v
+```
 ## Circuito lógico
 
 A regra do alerta é `S = (A ∧ B) ∨ C`: A representa consumo no limite ou acima dele, B indica módulo crítico e C indica falha. A saída aciona o LED e o piezo no sketch. O esquema padronizado está em `circuito_logico.png`; consulte também `docs/circuito/README.md` para tabela-verdade, componentes, mapeamento dos pinos e roteiro de reprodução. A comunicação entre Python e o Arduino é demonstrada por comandos seriais copiados manualmente; não há integração em tempo real.
