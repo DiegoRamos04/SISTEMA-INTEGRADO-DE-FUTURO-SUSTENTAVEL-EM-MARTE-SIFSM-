@@ -18,7 +18,7 @@ O protótipo reúne cadastro de módulos, análise de consumo, regra de alerta, 
 - `src/agentes_ia.py`: triagem, agentes especialistas, handoffs e guardrails simulados.
 - `data/circuito/script_banco.sql`: definição da tabela Oracle (movido para dentro de data/circuito).
 - `dados_aurora_siger.csv`: base sintética de consumo e características dos módulos, localizada na raiz do projeto.
-- `docs/circuito/esquema-circuito.png`: cópia do esquema com o nome padronizado para a entrega ZIP.
+- `docs/circuito/circuito_logico.png`: cópia do esquema com o nome padronizado para a entrega ZIP.
 - `simulador/alerta_energetico/alerta_energetico.ino`: lógica de circuito para Arduino Uno/Tinkercad.
 - `docs/circuito/`: pasta contendo o PDF do projeto, README específico, arquivos CSV (como lista de componentes e tabela verdade) e evidências de validação (arquivos .txt).
 - `docs/graficos_ou_imagens/`: gráficos gerados pela simulação (simulacao_bateria.png) e pelo modelo (grafico_dispersao.png), além do arquivo link_video.txt e o próprio relatorio_tecnico.md.
