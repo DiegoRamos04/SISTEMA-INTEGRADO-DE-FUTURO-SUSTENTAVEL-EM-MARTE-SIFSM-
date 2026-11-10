@@ -144,8 +144,6 @@ Seguindo as premissas de modelagem de regressão linear múltipla, a análise de
 
 Os agentes usam regras e textos predefinidos; não consultam de fato o Oracle e não são um modelo generativo autônomo. Sessões (memória de contexto) e RAG são conceituais. Recomendações automatizadas devem ser revisadas por uma pessoa, respeitando o princípio de que a IA integrada deve atuar sob supervisão em ambientes de suporte à vida.
 
-A arquitetura simula os conceitos fundamentais de sistemas multiagentes modernos baseados em SDKs agentivos, estruturando o fluxo por meio de um agente triador que utiliza delegações nativas (handoffs) para direcionar demandas a especialistas específicos (energia, manutenção e dados). Camadas de segurança (guardrails) atuam validando de forma preventiva entradas e saídas para bloquear termos sensíveis ou comportamentos fora do escopo antes de consolidar a resposta ao operador.
-
 ## 10. Arquitetura computacional e eficiência
 
 O volume do protótipo é pequeno e pode ser processado por CPU convencional. CRUD, regras booleanas e roteamento dos agentes não justificam GPU, NPU ou TPU. A CPU executa o fluxo de controle e os cálculos; NumPy/SciPy e scikit-learn processam as análises no tamanho de dados atual. A tabela hash mantém buscas rápidas em memória durante a execução, enquanto o banco Oracle representa persistência entre execuções.
@@ -154,9 +152,11 @@ Em uma arquitetura conceitual da colônia, regras críticas poderiam rodar local
 
 ## 11. Sustentabilidade, cidadania digital e impacto socioambiental
 
-O alerta, a simulação de bateria e a análise de consumo demonstram como regras e cenários podem apoiar o planejamento de recursos. Simular permite comparar hipóteses antes de consumir água, energia ou materiais em experimentos físicos. O histórico de chamados e a execução local de regras podem contribuir para resiliência operacional, mas isso precisaria ser validado com dados de sensores e ensaios reais.
+O SIFSM reflete uma arquitetura de integração dividida em três níveis: a **camada física** (representada pelo circuito e módulos), a **camada de controle** (regras lógicas em Python e automação local) e a **camada analítica** (simulação matemática e regressão). A articulação dessas camadas demonstra como a integração entre energia, dados, automação e simulação contribui diretamente para o uso responsável dos recursos. Ao simular hipóteses em ambiente virtual antes de consumir insumos físicos, o sistema otimiza a operação e apoia uma colônia mais autônoma e resiliente, utilizando redes inteligentes e armazenamento para lidar com contingências.
 
-Dados de operação podem revelar horários, hábitos e atividades da tripulação. Uma implantação responsável deve coletar apenas o necessário, limitar acessos, definir retenção, explicar o uso dos dados e permitir revisão humana. Respostas de IA devem ser identificadas como sugestões e não decisões finais. Também se deve avaliar impactos de servidores, redes, armazenamento e IA, incluindo energia, calor, materiais e manutenção. O protótipo usa agentes baseados em regras e evita depender de processamento pesado; diversidade, acessibilidade, transparência e segurança da tripulação devem orientar qualquer evolução.
+Do ponto de vista institucional, o projeto alinha-se aos princípios **ESG** (Ambiental, Social e de Governança), assumindo uma postura de inovação responsável. A cidadania digital e a economia dos dados são tratadas com rigor, reconhecendo que dados operacionais podem revelar a rotina e a privacidade da tripulação, o que exige transparência, retenção mínima e proteção contra usos indevidos. Além disso, ao otimizar processos localmente e evitar processamentos desnecessários, o sistema mitiga os impactos ambientais (como consumo de energia e dissipação de calor) gerados por infraestruturas de IA e data centers. 
+
+Por fim, as sugestões autônomas geradas pelo sistema são mantidas sob revisão humana, reforçando que a tecnologia deve ser socialmente responsável, diversa e voltada estritamente para a preservação do equilíbrio e da segurança da vida na colônia Aurora Siger.
 
 ## 12. Tratamento de erros e validação
 
